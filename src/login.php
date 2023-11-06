@@ -47,14 +47,14 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<input type="email" name="email" required class="form-control" pattern="[A-Za-z0-9_-]{1,50}"
-										id="appointment_email" placeholder="Correo">
+									<input type="email" name="email" required class="form-control"
+										pattern="[A-Za-z0-9_-]{1,50}" id="appointment_email" placeholder="Correo">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<input type="password" name="password" required class="form-control" pattern="[A-Za-z0-9_-]{1,50}"
-										placeholder="Contraseña">
+									<input type="password" name="password" required class="form-control"
+										pattern="[A-Za-z0-9_-]{1,50}" placeholder="Contraseña">
 								</div>
 							</div>
 						</div>
