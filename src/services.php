@@ -41,7 +41,7 @@
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
           <li class="nav-item active"><a href="services.html" class="nav-link">Services</a></li>
           <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
           <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
@@ -89,7 +89,9 @@
               <div class="pricing-entry pb-5 text-center">
                 <div>
                   <div class="media block-6 services d-block text-center">
-                    <div class="icon"><span class="<?php echo $row['service_icon'] ?>"></span></div>
+                    <div class="icon">
+                      <img style="width: 4em;" src="data:image/jpeg;base64,<?php echo $row['service_icon']; ?>" alt="<?php echo $row['service_name']; ?>">
+                    </div>
                   </div>
                   <h3 class="mb-4"><?php echo $row['service_name'] ?></h3>
                   <p><?php echo $row['service_description'] ?></p><br>

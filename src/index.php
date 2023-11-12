@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +45,7 @@
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-					<li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+					<li class="nav-item"><a href="services.php" class="nav-link">Services</a></li>
 					<li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
 					<li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
 					<li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
@@ -52,7 +55,6 @@
 		</div>
 	</nav>
 	<!-- END nav -->
-
 	<section class="hero-wrap js-fullheight" style="background-image: url(images/bg-2.jpg);"
 		data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
@@ -114,120 +116,77 @@
 		<div class="container">
 			<div class="row justify-content-center pb-3">
 				<div class="col-md-10 heading-section text-center ftco-animate">
-					<span class="subheading">Services</span>
-					<h2 class="mb-4">Services Menu</h2>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+					<span class="subheading">Servicios</span>
+					<h2 class="mb-4">Menu de servicios</h2>
+					<p>Para ver mas detalles dirijase a la pagina de servicios</p>
 				</div>
 			</div>
 			<div class="row no-gutters d-flex">
-				<div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-					<div class="media block-6 services d-block text-center">
-						<div class="icon"><span class="flaticon-male-hair-of-head-and-face-shapes"></span></div>
-						<div class="media-body">
-							<h3 class="heading mb-3">Haircut &amp; Styling</h3>
-							<p>A small river named Duden flows by their place and supplies.</p>
+				<?php
+				require('querys/connection.php');
+				$query = "SELECT service_name, service_description, service_icon FROM service LIMIT 8";
+				$result = $conn->query($query);
+				if ($result->num_rows > 0) {
+				while ($row = $result->fetch_assoc()) {
+					?>
+					<div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
+						<div class="media block-6 services d-block text-center">
+							<div class="icon">
+								<img style="width: 4em;" src="data:image/jpeg;base64,<?php echo $row['service_icon']; ?>" alt="<?php echo $row['service_name']; ?>">
+							</div>
+							<div class="media-body">
+								<h3 class="heading mb-3"><?php echo $row['service_name']; ?></h3>
+								<p><?php echo $row['service_description']; ?></p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-					<div class="media block-6 services d-block text-center">
-						<div class="icon"><span class="flaticon-beard"></span></div>
-						<div class="media-body">
-							<h3 class="heading mb-3">Beard</h3>
-							<p>A small river named Duden flows by their place and supplies.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-					<div class="media block-6 services d-block text-center">
-						<div class="icon"><span class="flaticon-beauty-products"></span></div>
-						<div class="media-body">
-							<h3 class="heading mb-3">Makeup</h3>
-							<p>A small river named Duden flows by their place and supplies.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-					<div class="media block-6 services d-block text-center">
-						<div class="icon"><span class="flaticon-healthy-lifestyle-logo"></span></div>
-						<div class="media-body">
-							<h3 class="heading mb-3">Body Treatment</h3>
-							<p>A small river named Duden flows by their place and supplies.</p>
-						</div>
-					</div>
-				</div>
+					<?php
+					}
+				}
+				?>
 			</div>
 		</div>
 	</section>
-
-	<section class="ftco-section ftco-booking bg-light">
-		<div class="container ftco-relative">
-			<div class="row justify-content-center pb-3">
-				<div class="col-md-10 heading-section text-center ftco-animate">
-					<span class="subheading">Booking</span>
-					<h2 class="mb-4">Make an Appointment</h2>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+	<?php
+		if (isset($_SESSION["user_id"]) && isset($_SESSION["user_email"]) && isset($_SESSION["user_name"])) {
+		?>
+		<section class="ftco-section ftco-booking bg-light">
+			<div class="container ftco-relative">
+				<div class="row justify-content-center pb-3">
+					<div class="col-md-10 heading-section text-center ftco-animate">
+						<span class="subheading">Reseña</span>
+						<h2 class="mb-4">Realiza una reseña</h2>
+						<p>Comparte una opinión de los servicios que ofrece nuestra barbería</p>
+					</div>
 				</div>
-			</div>
-			<h3 class="vr">Call Us: 012-3456-7890</h3>
-			<div class="row justify-content-center">
-				<div class="col-md-10 ftco-animate">
-					<form action="#" class="appointment-form">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="text" class="form-control" id="appointment_name" placeholder="Name">
+				<div class="row justify-content-center">
+					<div class="col-md-10 ftco-animate">
+						<form action="querys/recordReview.php" method="post" class="appointment-form">
+							<input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]?>">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="number" min="1" max="5" name="score" class="form-control" placeholder="Puntuación (1-5)">
+									</div>
 								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="text" class="form-control" id="appointment_email" placeholder="Email">
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="text" class="form-control appointment_date" placeholder="Date">
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="text" class="form-control appointment_time" placeholder="Time">
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<div class="select-wrap">
-										<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-										<select name="" id="" class="form-control">
-											<option value="">Professional Makeup</option>
-											<option value="">Manicure Pedicure</option>
-											<option value="">Body Treatment</option>
-											<option value="">Haircut &amp; Coloring</option>
-										</select>
+								<div class="col-md-12">
+									<div class="form-group">
+										<textarea name="review" id="" cols="30" rows="7" class="form-control"
+											placeholder="Escribe tu reseña aquí"></textarea>
 									</div>
 								</div>
 							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="text" class="form-control" id="phone" placeholder="Phone">
-								</div>
+							<div class="form-group">
+								<input type="submit" value="Enviar reseña" class="btn btn-primary">
 							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<textarea name="" id="" cols="30" rows="7" class="form-control"
-										placeholder="Message"></textarea>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<input type="submit" value="Make an Appointment" class="btn btn-primary">
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-
+		</section>
+		<?php
+		}
+	?>
 
 	<section class="ftco-section ftco-team">
 		<div class="container-fluid px-md-5">
@@ -490,90 +449,36 @@
 				<div class="col-md-6 col-lg-7 py-5 pl-md-5">
 					<div class="py-md-5">
 						<div class="heading-section ftco-animate">
-							<span class="subheading">Testimony</span>
-							<h2 class="mb-0">Happy Customer</h2>
+							<span class="subheading">Reseña</span>
+							<h2 class="mb-0">Opinión del Cliente</h2>
 						</div>
 						<div class="carousel-testimony owl-carousel ftco-animate">
+							<?php
+								require('querys/connection.php');
+								$query = "SELECT u.user_id, u.user_name, r.review_id, r.review_score, r.review_text FROM review r INNER JOIN user u ON r.user_id = u.user_id ORDER BY r.review_date DESC LIMIT 10";
+								$result = $conn->query($query);
+								if ($result->num_rows > 0) {
+								  while ($row = $result->fetch_assoc()) {
+							?>
 							<div class="item">
 								<div class="testimony-wrap pb-4">
 									<div class="text">
-										<p class="mb-4">Far far away, behind the word mountains, far from the countries
-											Vokalia and Consonantia, there live the blind texts.</p>
+										<p class="mb-4"><?php echo $row['review_text'] ?></p>
 									</div>
 									<div class="d-flex">
-										<div class="user-img" style="background-image: url(images/stylist-1.jpg)">
-										</div>
 										<div class="pos ml-3">
-											<p class="name">Jeff Nucci</p>
-											<span class="position">Businessman</span>
+											<p class="name"><?php echo $row['user_name'] ?></p>
+											<span class="position">Calificacion: <?php echo $row['review_score'] ?>/5</span>
+										</div>
+										<div class="user-img">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="item">
-								<div class="testimony-wrap pb-4">
-									<div class="text">
-										<p class="mb-4">Far far away, behind the word mountains, far from the countries
-											Vokalia and Consonantia, there live the blind texts.</p>
-									</div>
-									<div class="d-flex">
-										<div class="user-img" style="background-image: url(images/stylist-2.jpg)">
-										</div>
-										<div class="pos ml-3">
-											<p class="name">Jeff Nucci</p>
-											<span class="position">Businessman</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="testimony-wrap pb-4">
-									<div class="text">
-										<p class="mb-4">Far far away, behind the word mountains, far from the countries
-											Vokalia and Consonantia, there live the blind texts.</p>
-									</div>
-									<div class="d-flex">
-										<div class="user-img" style="background-image: url(images/stylist-3.jpg)">
-										</div>
-										<div class="pos ml-3">
-											<p class="name">Jeff Nucci</p>
-											<span class="position">Businessman</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="testimony-wrap pb-4">
-									<div class="text">
-										<p class="mb-4">Far far away, behind the word mountains, far from the countries
-											Vokalia and Consonantia, there live the blind texts.</p>
-									</div>
-									<div class="d-flex">
-										<div class="user-img" style="background-image: url(images/stylist-4.jpg)">
-										</div>
-										<div class="pos ml-3">
-											<p class="name">Jeff Nucci</p>
-											<span class="position">Businessman</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="testimony-wrap pb-4">
-									<div class="text">
-										<p class="mb-4">Far far away, behind the word mountains, far from the countries
-											Vokalia and Consonantia, there live the blind texts.</p>
-									</div>
-									<div class="d-flex">
-										<div class="user-img" style="background-image: url(images/stylist-5.jpg)">
-										</div>
-										<div class="pos ml-3">
-											<p class="name">Jeff Nucci</p>
-											<span class="position">Businessman</span>
-										</div>
-									</div>
-								</div>
-							</div>
+							<?php
+								}
+							}
+							?>
 						</div>
 					</div>
 				</div>

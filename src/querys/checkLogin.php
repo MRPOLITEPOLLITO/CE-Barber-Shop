@@ -10,11 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             while ($row = mysqli_fetch_assoc($result)) {
                 $user_id = $row['user_id'];
                 $user_name = $row['user_name'];
+                $user_level = $row['user_level'];
             }
             session_start();
             $_SESSION["user_email"] = $email;
             $_SESSION["user_id"] = $user_id;
             $_SESSION["user_name"] = $user_name;
+            $_SESSION["user_level"] = $user_level;
             header("Location: ../index.php");
             exit();
         } else {
