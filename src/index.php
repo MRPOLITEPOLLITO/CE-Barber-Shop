@@ -5,7 +5,7 @@ session_start();
 <html lang="en">
 
 <head>
-	<title>Haircare - Free Bootstrap 4 Template by Colorlib</title>
+	<title>Haircare</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -44,12 +44,28 @@ session_start();
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-					<li class="nav-item"><a href="services.php" class="nav-link">Services</a></li>
-					<li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
-					<li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+					<li class="nav-item active"><a href="index.html" class="nav-link">Inicio</a></li>
+					<li class="nav-item"><a href="services.php" class="nav-link">Servicios</a></li>
+					<li class="nav-item"><a href="gallery.html" class="nav-link">Galería</a></li>
+					<li class="nav-item"><a href="about.html" class="nav-link">Acerca de</a></li>
 					<li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-					<li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+					<li class="nav-item"><a href="contact.html" class="nav-link">Contacto</a></li>
+					<?php
+						if (isset($_SESSION["user_id"]) && isset($_SESSION["user_email"]) && isset($_SESSION["user_name"]) && isset($_SESSION["user_level"])) {
+							if($_SESSION["user_level"] == 'admin') {
+								?>
+									<li class="nav-item"><a href="admin.php" class="nav-link">Administrar</a></li>
+								<?php
+							}
+							?>
+								<li class="nav-item"><a href="/querys/destroySession.php" class="nav-link">LogOut</a></li>
+							<?php
+						} else {
+							?>
+								<li class="nav-item"><a href="login.php" class="nav-link">LogIn</a></li>
+							<?php
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -62,9 +78,9 @@ session_start();
 			<div class="row no-gutters slider-text js-fullheight justify-content-center align-items-center">
 				<div class="col-lg-12 ftco-animate d-flex align-items-center">
 					<div class="text text-center">
-						<span class="subheading">Welcome to Haircare</span>
-						<h1 class="mb-4">We are professional care for your hair</h1>
-						<p><a href="#" class="btn btn-primary btn-outline-primary px-4 py-2">Book now</a></p>
+						<span class="subheading">Bienvenido a Haircare</span>
+						<h1 class="mb-4">Somos cuidado profesional para tu cabello.</h1>
+						<p><a href="#" class="btn btn-primary btn-outline-primary px-4 py-2">Reserva ahora</a></p>
 					</div>
 				</div>
 			</div>
@@ -79,8 +95,8 @@ session_start();
 					<div class="services-wrap d-flex align-items-center img"
 						style="background-image: url(images/formen.jpg);">
 						<div class="text">
-							<h3>For Men</h3>
-							<p><a href="#" class="btn-custom">See pricing <span
+							<h3>Para Hombre</h3>
+							<p><a href="services.php" class="btn-custom">Ver precios<span
 										class="ion-ios-arrow-round-forward"></span></a></p>
 						</div>
 					</div>
@@ -90,20 +106,21 @@ session_start();
 						<h1 class="logo">
 							<a href="#"><span class="flaticon-scissors-in-a-hair-salon-badge"></span>Haircare</a>
 						</h1>
-						<h2>Welcome to our Salon</h2>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.
-							It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far
-							far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
-							live the blind texts.</p>
-						<p class="mt-3"><a href="#" class="btn btn-primary btn-outline-primary">Read more</a></p>
+						<h2>Bienvenido a nuestro salón</h2>
+						<p>
+							Sumérgete en la experiencia de nuestro acogedor salón de belleza, donde cada detalle
+							ha sido cuidadosamente diseñado para crear un ambiente relajante y rejuvenecedor. 
+							Inspirado por la elegancia y la atención personalizada, nuestro salón está situado 
+							junto a un sereno río llamado Duden, que aporta una sensación de tranquilidad.</p>
+						<p class="mt-3"><a href="#" class="btn btn-primary btn-outline-primary">Aprende más</a></p>
 					</div>
 				</div>
 				<div class="col-md text-center d-flex align-items-stretch">
 					<div class="services-wrap d-flex align-items-center img"
 						style="background-image: url(images/forwomen.jpg);">
 						<div class="text">
-							<h3>For Women</h3>
-							<p><a href="#" class="btn-custom">See pricing <span
+							<h3>Para Mujer</h3>
+							<p><a href="#" class="btn-custom">Ver precios<span
 										class="ion-ios-arrow-round-forward"></span></a></p>
 						</div>
 					</div>
@@ -187,7 +204,7 @@ session_start();
 		<?php
 		}
 	?>
-
+<!--
 	<section class="ftco-section ftco-team">
 		<div class="container-fluid px-md-5">
 			<div class="row justify-content-center pb-3">
@@ -240,7 +257,7 @@ session_start();
 			</div>
 		</div>
 	</section>
-
+-->
 	<section class="ftco-section ftco-no-pt ftco-no-pb">
 		<div class="container">
 			<div class="row no-gutters justify-content-center mb-5 pb-2">
@@ -361,7 +378,7 @@ session_start();
 			</div>
 		</div>
 	</section>
-
+<!--
 	<section class="ftco-section ftco-pricing">
 		<div class="container">
 			<div class="row justify-content-center pb-3">
@@ -439,7 +456,10 @@ session_start();
 			</div>
 		</div>
 	</section>
-
+-->
+	<br>
+	<br>
+	<br>
 	<section class="testimony-section bg-light">
 		<div class="container">
 			<div class="row ftco-animate justify-content-center">

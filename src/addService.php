@@ -1,3 +1,15 @@
+<?php 
+  session_start();
+  if (isset($_SESSION["user_id"]) && isset($_SESSION["user_email"]) && isset($_SESSION["user_name"]) && isset($_SESSION["user_level"])) {
+    if(!$_SESSION["user_level"] == 'admin') {
+      header("Location: ../index.php");
+      exit();
+    }
+  } else {
+    header("Location: ../index.php");
+    exit();
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +42,7 @@
 </head>
 
 <body>
-	<section class="ftco-section ftco-booking bg-light">
+	<section style="min-height: 100vh;" class="ftco-section ftco-booking bg-light">
 		<div class="container ftco-relative">
 			<div class="row justify-content-center pb-3">
 				<div class="col-md-10 heading-section text-center ftco-animate">

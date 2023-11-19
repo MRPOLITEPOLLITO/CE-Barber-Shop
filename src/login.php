@@ -58,8 +58,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
+						<div style="display: flex; flex:content" class="form-group">
 							<input type="submit" value="Iniciar sesión" class="btn btn-primary">
+							<a href="signup.php" style="text-align: center; padding-top: 16px;" class="btn btn-primary btn-outline-primary">Registrarse</a>
 						</div>
 					</form>
 				</div>
